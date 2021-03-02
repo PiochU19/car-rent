@@ -1,0 +1,47 @@
+{% extends 'settingsBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.about{
+				float: left;
+				width: 25%;
+			}
+			.info{
+				float: left;
+				width: 75%;
+			}
+			.about, .info {
+				margin-top: 2%;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="kkk">
+							<h1>{{ obj.first_name }} {{ obj.last_name }} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/useredit/{{ obj.user_id }}/">Edit this user</a></h1>
+							<div class="about">
+								<p>Username:</p>
+								<p>E-mail:</p>
+								<p>Role:</p>
+								<p>Birth date:</p>
+								<p>PESEL:</p>
+								<p>ID NUMBER:</p>
+								<p>City:</p>
+								<p>Street:</p>
+								<p>Street number:</p>
+								<p>Postal code:</p>
+							</div>
+							<div class="info">
+								<p>{{ obj.username }}</p>
+								<p>{{ obj.email }}</p>
+								<p>{{ role }}</p>
+								<p>{{ obj.birth_date }}</p>
+								<p>{{ obj.pesel }}</p>
+								<p>{{ obj.id_number }}</p>
+								<p>{{ obj.city }}</p>
+								<p>{{ obj.street }}</p>
+								<p>{{ obj.street_number }}</p>
+								<p>{{ obj.postal_code }}</p>
+							</div>
+						</div>
+{% endblock content %}

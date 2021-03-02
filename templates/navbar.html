@@ -1,0 +1,34 @@
+<!--NAVBAR-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="{% url 'home' %}">Premium car rental</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        {% if not user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        {% elif user.is_authenticated %}
+                        <div class="dropdown show">
+                            <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.first_name }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="margin-top: -10px;">
+                                <a class="dropdown-item" href="{% url 'profile' %}" style="color: black;">Profile</a>
+                                    {% if user.is_staff or user.employee.is_employee %}
+                                <a class="dropdown-item" href="{% url 'users-settings' %}" style="color: black;">Settings</a>
+                                    {% endif %}
+                                    {% if user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}" style="color: black;" target="_blank">Admin panel</a>
+                                    {% endif %}
+                            <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">Logout</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>

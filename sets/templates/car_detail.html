@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.kkk{
+				width: 100%;
+				height: 100%;
+			}
+			.about{
+				float: left;
+				width: 25%;
+			}
+			.info{
+				float: left;
+				width: 75%;
+			}
+			.about, .info {
+				margin-top: 2%;
+			}
+			.image{
+				float: left;
+				width: 40%;
+				height: 100%;
+			}
+			.right{
+				float: left;
+				height: 100%;
+				width: 60%;
+			}
+			.banner{
+				float: left;
+				width: 100%;
+				height: 10%;
+				text-align: center;
+			}
+			img{
+				width: 100%;
+				height: auto;
+				padding: 10%;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="kkk">
+							<div class="image">
+								<img src="{{ car.image.url }}" alt="car">
+							</div>
+							<div class="right">
+								<div class="banner">
+									<h1>{{ car.brand }} {{ car.model }} {{ car.generation }}&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/caredit/{{ car.id }}/"><span style="float: right; margin-right: 3%;">Edit this car</span></a></h1>
+								</div>
+								<div class="about">
+									<p>Year of production:</p>
+									<p>Body type:</p>
+									<p>Seats:</p>
+									<p>Doors:</p>
+									<p>Engine:</p>
+									<p>Hourse power:</p>
+									<p>Fuel type:</p>
+									<p>Acceleration:</p>
+									<p>Max speed:</p>
+									<p>Price:</p>
+									<p>To rent:</p>
+									<p>Other info:</p>
+								</div>
+								<div class="info">
+									<p>{{ car.year_of_production }}</p>
+									<p>{{ car.body_type }}</p>
+									<p>{{ car.seats }}</p>
+									<p>{{ car.doors }}</p>
+									<p>{{ car.engine }}</p>
+									<p>{{ car.hourse_power }}</p>
+									<p>{{ car.fuel_type }}</p>
+									<p>{{ car.acceleration }}</p>
+									<p>{{ car.max_speed }}</p>
+									<p>{{ car.price }}</p>
+									<p>{{ car.to_rent }}</p>
+									<p>{{ car.other_info }}</p>
+								</div>
+							</div>
+						</div>
+{% endblock content %}

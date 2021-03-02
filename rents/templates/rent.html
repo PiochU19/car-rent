@@ -1,0 +1,178 @@
+{% extends 'rentBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.image{
+				float: left;
+				width: 40%;
+				height: 100%;
+			}
+			img{
+				width: 100%;
+				height: auto;
+				padding: 10%;
+			}
+			.banner{
+				float: left;
+				width: 60%;
+				height: 20%;
+				text-align: center;
+			}
+			.about{
+				text-align: left;
+			}
+			button{
+				width: 30%;
+			}
+			.inp{
+				margin-left: 40px;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+			<div class="image">
+				<img src="{{ car.image.url }}" alt="Samochód">
+			</div>
+			<div class="banner">
+				<h1>{{ car.brand }} {{ car.model }} {{ car.generation }}</h1>
+ 			</div>
+ 			<div class="about"><form method="post">{% csrf_token %}
+ 				<h3 style="text-align: center; background-color: transparent;"><p id="mess">We will check if the days you chosen are available</p></h3>
+ 				<h2 style="display: inline-block;">Choose the date</h2>
+ 				{{ form.rent_starts }}
+ 				{{ form.rent_ends }}<br>
+ 				<h2 style="display: inline-block;">Additional insurance (10%):&nbsp&nbsp&nbsp&nbsp</h2>
+ 				{{ form.additional_insurance }}<br>
+ 				<h2 style="display: inline-block;">Price: <p style="display: inline-block;" id="pricep"></p></h2><br>{{ form.price }}
+ 				<p style="text-align: center;"><button class="btn btn-lg btn-primary" name="subbut" type="submit" disabled="true" id="subbut">Submit</button></p>
+ 			</form></div>
+{% endblock content %}
+
+{% block js %}
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script type="text/javascript">
+			const car_id = {{ car.id }};
+			const car_price = {{ car.price }};
+			let rented_days;
+
+			$.ajax({
+				url: '/ajax/days/',
+				data: {
+					'car': car_id,
+				},
+				dataType: 'json',
+				success: function(data){
+					const disabledDays = data['days'];
+					rented_days = disabledDays;
+				}
+			})
+
+			const format = (d) => {
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear();
+
+				if (month.length < 2) 
+					month = '0' + month;
+				if (day.length < 2) 
+					day = '0' + day;
+
+				return [year, month, day].join('-');
+			}
+
+			const getDatesBetweenDates = (date_start, date_end) => {
+				let dates = [];
+				var tab1 = [];
+				const theDate = new Date(date_start);
+				date_end = new Date(date_end);
+
+				while (theDate < date_end) {
+					dates = [...dates, new Date(theDate)];
+					theDate.setDate(theDate.getDate() + 1);
+				}
+				dates = [...dates, date_end];
+
+				for (let i = 0; i < dates.length; i++){
+					tab1.push(format(dates[i]));
+				}
+
+				return tab1
+			}
+
+			const compare = () => {
+				let date_start = document.getElementById('datepicker_start').value;
+
+				let date_end = document.getElementById('datepicker_end').value;
+
+				let tab = [];
+
+				if (date_start != "" && date_end != ""){
+					var selected_days = getDatesBetweenDates(date_start, date_end);
+
+					var test = true;
+
+					for (let i = 0; i < selected_days.length; i++){
+						let to_compare = selected_days[i];
+						if (rented_days.includes(to_compare)){
+							test = false;
+						}
+					}
+					tab.push(test);
+					tab.push(selected_days.length);
+					return tab
+				}
+			}
+
+			$('#datepicker_start').change(function(){
+				main();
+
+			})
+
+			$('#datepicker_end').change(function(){
+				main();
+			})
+			$('#insurance').change(function(){
+				main();
+			})
+
+			const main = () =>{
+				if ($('#datepicker_start').val() != "" && $('#datepicker_end').val() != ""){
+					if ($('#datepicker_start').val() <= $('#datepicker_end').val()){
+						let tab = compare();
+						let test = tab[0];
+						let days = tab[1];
+
+						if (test){
+							document.getElementById('mess').innerHTML = "Success! Wish you safe road";
+							document.getElementById('subbut').disabled = false;
+
+							let price = car_price * days;
+
+							if ($('#insurance').is(":checked")){
+								price *= 1.1;
+								price = parseInt(price);
+							}
+
+							document.getElementById('pricep').innerHTML = price;
+							document.getElementById('id_price').value = price;
+
+						}
+						else{
+							document.getElementById('mess').innerHTML = "Sorry, unfortunately this car is booked on this date";
+							document.getElementById('subbut').disabled = true;
+						}
+					}
+					else{
+						document.getElementById('mess').innerHTML = "Pick the right dates!";
+						document.getElementById('subbut').disabled = true;
+					}
+				}
+				else{
+					document.getElementById('mess').innerHTML = "We will check if the days you chosen are available";
+					document.getElementById('subbut').disabled = true;
+				}
+			}
+		</script>
+{% endblock js %}

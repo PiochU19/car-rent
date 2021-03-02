@@ -1,0 +1,72 @@
+{% extends 'profileBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.all {
+				width: 100%;
+				height: 100%;
+				padding-bottom: 100px;
+			}
+			.banner{
+				float: left;
+				width: 100%;
+				text-align: center;
+			}
+			.rest{
+				float: left;
+				width: 100%;
+			}
+			table{
+				border: 1px solid black;
+				width: 100%;
+				text-align: center;
+			}
+			th{
+				background-color: white;
+				border: 1px solid black;
+			}
+			td{
+				border: 1px solid black;
+			}
+			tr:nth-child(odd) {
+				background-color: rgba(255, 255, 255, 0.5);
+			}
+			.btn{
+				background-color: white;
+				padding: 15px;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="all">
+							<div class="banner">
+								<h1 style="display: inline-block;">Manage rents</h1>
+							</div>
+							<div class="rest">
+								<table id="cars_table">
+									<tr>
+										<th>Lp.</th>
+										<th>CAR</th>
+										<th>START DATE</th>
+										<th>END DATE</th>
+										<th>INSURANCE</th>
+										<th>PRICE</th>
+										<th>Delete</th>
+									</tr>
+									{% for rent in rents %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{ rent.car }}</td>
+										<td>{{ rent.rent_starts }}</td>
+										<td>{{ rent.rent_ends }}</td>
+										<td>{{ rent.additional_insurance }}</td>
+										<td>{{ rent.price }} PLN</td>
+										<td><a href="/rent_delete/{{ rent.id }}"><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></a></td>
+									</tr>
+									{% endfor %}
+								</table>
+
+							</div>
+						</div><br><br><br><br><br><br>
+{% endblock content %}

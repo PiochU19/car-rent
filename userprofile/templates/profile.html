@@ -1,0 +1,111 @@
+{% extends 'profileBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.about{
+				float: left;
+				width: 25%;
+			}
+			.info{
+				float: left;
+				width: 75%;
+			}
+			.about, .info {
+				margin-top: 2%;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="kkk">
+							<h1>Welcome {{ user.first_name }} {{ user.last_name }}</h1>
+							<div class="about">
+								<p>Username:</p>
+								<p>E-mail:</p>
+								<p>Role:</p>
+								<p>Birth date:</p>
+								<p>PESEL:</p>
+								<p>ID NUMBER:</p>
+								<p>City:</p>
+								<p>Street:</p>
+								<p>Street number:</p>
+								<p>Postal code:</p>
+							</div>
+							<div class="info">
+								<p>{{ user.username }}</p>
+								<p>{{ user.email }}</p>
+								<p>
+									{% if user.is_superuser %}
+										Headadmin
+									{% elif user.client.is_client %}
+										Client
+									{% elif user.employee.is_employee %}
+										Employee
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.birth_date }}
+									{% elif user.client.is_client %}
+										{{ user.client.birth_date }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.birth_date }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.pesel }}
+									{% elif user.client.is_client %}
+										{{ user.client.pesel }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.pesel }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.id_number }}
+									{% elif user.client.is_client %}
+										{{ user.client.id_number }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.id_number }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.city }}
+									{% elif user.client.is_client %}
+										{{ user.client.city }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.city }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.street }}
+									{% elif user.client.is_client %}
+										{{ user.client.street }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.street }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.street_number }}
+									{% elif user.client.is_client %}
+										{{ user.client.street_number }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.street_number }}
+									{% endif %}
+								</p>
+								<p>
+									{% if user.is_superuser %}
+										{{ user.headadmin.postal_code }}
+									{% elif user.client.is_client %}
+										{{ user.client.postal_code }}
+									{% elif user.employee.is_employee %}
+										{{ user.employee.postal_code }}
+									{% endif %}
+								</p>
+							</div>
+						</div>
+{% endblock content %}

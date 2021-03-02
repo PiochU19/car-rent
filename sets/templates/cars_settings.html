@@ -1,0 +1,77 @@
+{% extends 'settingsBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.all {
+				width: 100%;
+				height: 100%;
+				padding-bottom: 100px;
+			}
+			.banner{
+				float: left;
+				width: 100%;
+				text-align: center;
+			}
+			.rest{
+				float: left;
+				width: 100%;
+			}
+			table{
+				border: 1px solid black;
+				width: 100%;
+				text-align: center;
+			}
+			th{
+				background-color: white;
+				border: 1px solid black;
+			}
+			td{
+				border: 1px solid black;
+			}
+			tr:nth-child(odd) {
+				background-color: rgba(255, 255, 255, 0.5);
+			}
+			.btn{
+				background-color: white;
+				padding: 15px;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="all">
+							<div class="banner">
+								<h1 style="display: inline-block;">Manage cars</h1>
+								<a href="{% url 'car-add' %}"><button class="btn" style="display: inline-block; float: right;">Add Car</button></a>
+							</div>
+							<div class="rest">
+								<table id="cars_table">
+									<tr>
+										<th>Lp.</th>
+										<th>Brand</th>
+										<th>Model</th>
+										<th>Year</th>
+										<th>Engine</th>
+										<th>Fuel</th>
+										<th>To rent</th>
+										<th>Detail</th>
+										<th>Delete</th>
+									</tr>
+									{% for car in cars %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td>{{ car.brand }}</td>
+										<td>{{ car.model }}</td>
+										<td>{{ car.year_of_production }}</td>
+										<td>{{ car.engine }}</td>
+										<td>{{ car.fuel_type }}</td>
+										<td>{{ car.to_rent }}</td>
+										<td><a href="/car/{{ car.id }}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/><path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg></a></td>
+										<td><a href="/cardelete/{{ car.id }}"><svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-trash' fill='currentColor'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></a></td>
+									</tr>
+									{% endfor %}
+								</table>
+
+							</div>
+						</div><br><br><br><br><br><br>
+{% endblock content %}

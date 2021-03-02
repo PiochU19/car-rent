@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+
+{% block css %}
+		<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+		<style>
+			body {
+				text-align: center;
+			}
+			.main {
+				padding-top: 90px;
+			}
+			@media (min-width: 700px){
+				.main {
+				padding-top: 200px;
+				}
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+			<form method="post" class="form-signin">
+			{% csrf_token %}
+      			<h1 class="h1 mb-3">Log in</h1>
+      				{{ form.username }}
+      
+      				{{ form.password }}
+      				<p>Don’t have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+      				<button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+    		</form>
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends 'settingsBase.html' %}
+{% load static %}
+
+{% block css %}
+		<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+		<style>
+			.banner{
+				text-align: center;
+				float: left;
+				width: 100%;
+			}
+			.left{
+				float: left;
+				width: 50%;
+			}
+			.right{
+				float: left;
+				width: 50%;
+			}
+			.submitdiv{
+				clear: both;
+				float: left;
+				width: 100%;
+			}
+			input, .custom-file, .checkdiv{
+				margin-top: 0.7em;
+			}
+			.checkdiv{
+				height: 38px;
+				text-align: center;
+			}
+			.btn{
+				margin-top: 2em;
+			}
+			.file-input{
+				height: 38px;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}		<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="banner">
+							<h1>Add car</h1>
+						</div>
+						<div class="left">
+							{{ form.brand }}
+							{{ form.model }}
+							{{ form.generation }}
+							{{ form.year_of_production }}
+							{{ form.fuel_type }}
+							{{ form.engine }}
+							{{ form.hourse_power }}
+							{{ form.body_type }}
+						</div>
+						<div class="right">
+							{{ form.seats }}
+							{{ form.doors }}
+							{{ form.acceleration }}
+							{{ form.max_speed }}
+							{{ form.price }}
+  							{{ form.image }}
+							{{ form.other_info }}
+							<div class="checkdiv">
+								{{ form.to_rent }}{{ form.to_rent.label }}
+							</div>
+						</div>
+						<div class="submitdiv">
+							<button class="btn btn-lg btn-primary btn-block" type="submit" id="subbut">Add</button>
+						</form>
+						</div>
+{% endblock content %}

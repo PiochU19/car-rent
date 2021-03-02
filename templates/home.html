@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Rent premium car, Rent, Car, Rent car">
+        <meta name="author" content="Dominik Pioś">
+        <title>Car rental - {{ title }}</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/icon.png' %}">
+
+        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <!-- FONTS-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <link rel="stylesheet" href="{% static 'css/template.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body id="page-top">
+        <!--NAVBAR-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Premium car rental</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#offer">Our offer</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#explain">How it works?</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                        {% if not user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        {% elif user.is_authenticated %}
+                        <div class="dropdown show">
+                            <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.first_name }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="margin-top: -10px;">
+                                <a class="dropdown-item" href="{% url 'profile' %}" style="color: black;">Profile</a>
+                                    {% if user.is_staff or user.employee.is_employee %}
+                                <a class="dropdown-item" href="{% url 'users-settings' %}" style="color: black;">Settings</a>
+                                    {% endif %}
+                                    {% if user.is_superuser %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}" style="color: black;" target="_blank">Database</a>
+                                    {% endif %}
+                            <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">Logout</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--TOP-->
+        <header class="masthead" style="background-image: url({% static 'assets/mainpic.png' %});">
+            <div class="container d-flex h-100 align-items-center">
+                <div class="mx-auto text-center">
+                    <h1 class="mx-auto my-0 text-uppercase" style="color: white;">rent car</h1>
+                    <h2 class="mx-auto mt-2 mb-5">Check out our offer, and make your dream come true</h2>
+                    <a class="btn btn-primary js-scroll-trigger" href="#offer">Our offer</a>
+                </div>
+            </div>
+        </header>
+        <!-- ABOUT-->
+        <section class="about-section text-center" id="offer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <p style="font-size: 3em; text-align: center; color: white;"><b>Hire car</b></p>
+                        <div class="offer" id="xd">
+                            {% for car in cars %}
+                            <div class="car">
+                                <div class="car-top">
+                                    <img class="car-image" src="{{ car.image.url }}">
+                                </div>
+                                <div class="car-bottom">
+                                    <p style="font-size: 1.25em;">
+                                        {{ car.brand }} {{ car.model }} {{ car.generation }} {{ car.hourse_power }}
+                                    </p>
+                                    <p style="margin-top: -20%; text-align: left;">
+                                        {{ car.price }} PLN per day | {{ car.year_of_production }} | {{ car.engine }} {{ car.fuel_type }} | {{ car.body_type }}
+                                    </p>
+                                    <p style="margin-top: -20%;">
+                                        <a href="/rent/{{ car.id }}"><button class="rent-button">Rent</button></a>
+                                    </p>
+                                    <p style="margin-top: -20%;"></p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- PROJECTS-->
+        <section class="projects-section bg-light" id="explain">
+            <p style="font-size: 3em; text-align: center;"><b>How it works?</b></p>
+            <div class="container" style="text-align: center;">
+                <p style="color: black; font-size: 1.5em;">It has never been esier! Just pick car you want to rent, day when you want to rent car, set some other things to make it easier for us, and then come to our place on a fixed date.<a class="nav-link js-scroll-trigger" href="#offer">Check yourself</a></p>
+            </div>
+        </section>
+        <!-- CONTACT-->
+        <section class="contact-section bg-black" id="contact">
+            <p style="font-size: 3em; text-align: center; color: white;"><b>Contact</b></p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-map-marked-alt text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Address</h4>
+                                <hr class="my-4">
+                                <div class="small text-black-50"><a href="https://www.google.pl/maps/place/Lublin/@51.2180254,22.4236877,11z/data=!3m1!4b1!4m5!3m4!1s0x472257141e154061:0x5528ee7af6e8e95f!8m2!3d51.2464536!4d22.5684463" target="blank">00-000 Lublin ul. Kwiatiowa 11</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Email</h4>
+                                <hr class="my-4">
+                                <div class="small text-black-50"><a href="mailto:rentcar@rent.car">rentcar@rent.car</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-mobile-alt text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Phone</h4>
+                                <hr class="my-4">
+                                <div class="small text-black-50">+48 792 954 018</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="social d-flex justify-content-center">
+                    <a class="mx-2" href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="mx-2" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="mx-2" href="https://www.github.com" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="footer bg-black small text-center text-white-50"><div class="container">Rent premium car © Dominik Pioś 2020</div></footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>

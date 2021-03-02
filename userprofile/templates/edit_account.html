@@ -1,0 +1,90 @@
+{% extends 'profileBase.html' %}
+
+{% block css %}
+		<style type="text/css">
+			.about{
+				float: left;
+				width: 25%;
+			}
+			.info{
+				float: left;
+				width: 75%;
+			}
+			.about, .info {
+				margin-top: 2%;
+			}
+			p, input{
+				height: 40px;
+				margin-top: 0;
+			}
+		</style>
+{% endblock css %}
+
+{% block content %}
+						<div class="kkk">
+							<h1>Edit your account info</h1>
+							<div class="about">
+								<p>Birth date:</p>
+								<p>PESEL:</p>
+								<p>ID NUMBER:</p>
+								<p>City:</p>
+								<p>Street:</p>
+								<p>Street number:</p>
+								<p>Postal code:</p>
+							</div>
+							<div class="info">
+								<form method="post" novalidate>
+									{% csrf_token %}
+									<p>{{ form.birth_date }}</p>
+									<p>{{ form.pesel }}</p>
+									<p>{{ form.id_number }}</p>
+									<p>{{ form.city }}</p>
+									<p>{{ form.street }}</p>
+									<p>{{ form.street_number }}</p>
+									<p>{{ form.postal_code }}</p>
+									<button class="btn btn-lg btn-primary btn-block" type="submit" disabled="False" id="subbut">SUBMIT</button>
+								</form>
+							</div>
+						</div>
+{% endblock content %}
+
+{% block js %}
+	<script type="text/javascript">
+		$('#subbut').prop('disabled', false);
+		$('#id_postal_code, #id_id_number, #id_pesel').keyup(function(){
+			const postalCheck = () => {
+				const postal = document.getElementById('id_postal_code').value;
+
+				const regex = /[0-9]{2}\-[0-9]{3}/gm;
+
+				if(regex.test(postal)){
+					return true
+				}
+			}
+			const id_numberCheck = () => {
+				const id_number = document.getElementById('id_id_number').value;
+
+				const regex = /[A-Z]{3}\ [0-9]{3}/gm;
+
+				if(regex.test(id_number)){
+					return true
+				}
+			}
+			const peselCheck = () => {
+				const pesel = document.getElementById('id_pesel').value;
+
+				const regex = /[0-9]{11}/gm;
+
+				if(regex.test(pesel)){
+					return true
+				}
+			}
+			if(postalCheck() && id_numberCheck() && peselCheck()){
+				$('#subbut').prop('disabled', false);
+			}
+			else{
+				$('#subbut').prop('disabled', true);
+			}
+		})
+	</script>
+{% endblock js %}
